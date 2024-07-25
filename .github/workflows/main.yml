@@ -26,11 +26,20 @@ jobs:
         username: ${{secrets.DOCKER_USERNAME}}
         password: ${{secrets.DOCKER_PASSWORD}}
 
-    - name: Build docker image
-      run: docker build -t mangareira/nlw.teste.api:${{steps.generate_sha.outputs.sha}} .
+    - name: Build and push
+      uses: docker/build-push-action@v6
+      with:
+        context: . 
+        push: true
+        tags: |
+          mangareira/nlw.teste.api:${{steps.generate_sha.outputs.sha}}
+          mangareira/nlw.teste.api:latest
+
+    # - name: Build docker image
+    #   run: docker build -t mangareira/nlw.teste.api:${{steps.generate_sha.outputs.sha}} .
     
-    - name: Push image
-      run: |
-        docker push mangareira/nlw.teste.api:${{steps.generate_sha.outputs.sha}}
-        docker tag mangareira/nlw.teste.api:${{steps.generate_sha.outputs.sha}} mangareira/nlw.teste.api:latest
-        docker push mangareira/nlw.teste.api:latest
+    # - name: Push image
+    #   run: |
+    #     docker push mangareira/nlw.teste.api:${{steps.generate_sha.outputs.sha}}
+    #     docker tag mangareira/nlw.teste.api:${{steps.generate_sha.outputs.sha}} mangareira/nlw.teste.api:latest
+    #     docker push mangareira/nlw.teste.api:latest
