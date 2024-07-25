@@ -13,6 +13,12 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v4
+      id: generate_sha
+
+    - name: Genarate SHA
+      run: |
+        SHA=$(echo $GITHUB_SHA | head -c7)
+        echo "sha=$SHA" >> $GITHUB_OUTPUT
 
     - name: Build docker image
-      run: docker build -t mangareira/nlw.teste.api:v1 .
+      run: docker build -t mangareira/nlw.teste.api:${{steps.generate_sha.outputs.sha}} .
