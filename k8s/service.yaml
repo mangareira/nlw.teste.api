@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nlw-service-test
+  labels:
+    app: teste
+spec:
+  selector:
+    app: teste
+  type: ClusterIP
+  ports:
+  - name: nlw-service-test
+    port: 80
+    targetPort: 3333
+    protocol: TCP

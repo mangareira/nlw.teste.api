@@ -1,9 +1,9 @@
-version: '3.8'
+version: "3.8"
 
 services:
   api:
     build: .
-    container_name: testev2
+    container_name: api
     ports:
       - ${PORT}:3333
     environment:

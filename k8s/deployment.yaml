@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: nlw-deployment
+  labels:
+    app: teste
+
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: teste
+  template:
+    metadata:
+      labels:
+        app: teste
+    spec: 
+      containers:
+        - name: api-nlw
+          image: mangareira/nlw.teste.api:d71c3bb
+          env:
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: enviroment
+                key: database_url
+          - name: API_BASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: enviroment
+                key: api_base_url
+          - name: FRONTEND_BASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: enviroment
+                key: frontend_base_url
+          - name: PORT
+            valueFrom:
+              secretKeyRef:
+                name: enviroment
+                key: port
+          ports: 
+            - containerPort: 3333
+          resources:
+            requests:
+              cpu: 100m
+              memory: 126Mi
+            limits:
+              cpu: 200m
+              memory: 200Mi
